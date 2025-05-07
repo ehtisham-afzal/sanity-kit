@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { VisualEditing } from 'next-sanity'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { draftMode } from 'next/headers'

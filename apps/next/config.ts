@@ -8,6 +8,7 @@ const config = {
     revalidateSecret: process.env.SANITY_REVALIDATE_SECRET || '',
     studioUrl: '/studio',
   },
+  siteName : process.env.NEXT_PUBLIC_SITE_NAME || '',
   siteDomain: process.env.NEXT_PUBLIC_SITE_DOMAIN || '',
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL || '',
 }

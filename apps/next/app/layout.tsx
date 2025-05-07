@@ -1,4 +1,5 @@
-import 'tailwindcss/tailwind.css'
+// import '@/styles/index.css'
+import '@repo/ui/styles/globals.css'
 
 import { Inter } from 'next/font/google'
 
