@@ -1,5 +1,7 @@
 import {definePathname} from '@tinloof/sanity-studio'
-import {defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
+import { sections } from './sections'
+import config from '../config'
 
 export default defineType({
   type: 'document',
@@ -16,6 +18,37 @@ export default defineType({
         hotspot: true,
       },
     },
-    definePathname({name: 'pathname'}),
+    defineField({
+      name: 'sectionsBody',
+      title: 'Sections',
+      type: 'array',
+      of: sections.map((section) => ({
+        type: section.name,
+      })),
+      options: {
+        insertMenu: {
+          views: [
+            {
+              name: 'grid',
+              previewImageUrl: (type) => `/sections/${type}.png`,
+            },
+          ],
+        },
+      },
+    }),
+    definePathname({
+      name: 'pathname',
+      options: {
+        i18n: {
+          enabled: true,
+          defaultLocaleId: config.i18n.defaultLocaleId,
+        },
+      },
+    }),
+    {
+      type: 'string',
+      name: 'locale',
+      hidden: true,
+    },
   ],
 })

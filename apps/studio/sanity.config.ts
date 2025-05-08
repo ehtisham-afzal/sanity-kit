@@ -1,27 +1,29 @@
-import {defineConfig} from 'sanity'
+import {defineConfig,} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
-import {pages} from '@tinloof/sanity-studio'
+import {documentI18n, pages} from '@tinloof/sanity-studio'
+import config from './config'
 
 export default defineConfig({
-  name: 'default',
-  title: 'Vite studio',
-  projectId: 'jn9z9urn',
-  dataset: 'production',
-  plugins: [
-    structureTool(),
-    pages({
-      previewUrl: {
-        previewMode: {
-          enable: 'http://localhost:9999/api/draft',
-        },
-      },
-      creatablePages: ['page', 'post', 'author'],
-    }),
-    visionTool(),
-  ],
+  projectId: "jn9z9urn",
+  dataset: "production",
+  title: config.siteName,
   schema: {
     types: schemaTypes,
   },
+  plugins: [
+    pages({
+      previewUrl: {
+        previewMode: {
+          enable: config.previewUrl + "/api/draft",
+        },
+      },
+      creatablePages: ['page'],
+      i18n: config.i18n,
+    }),
+    documentI18n({ ...config.i18n, schemas : schemaTypes, }),
+    structureTool(),
+    visionTool({ defaultApiVersion: "2025-05-07" }),
+  ],
 })
