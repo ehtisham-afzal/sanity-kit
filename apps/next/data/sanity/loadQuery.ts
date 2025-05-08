@@ -25,7 +25,7 @@ export async function loadQuery<QueryResponse>({
     )
   }
 
-  // https://nextjs.org/docs/app/api-reference/functions/fetch#optionsnextrevalidate
+// https://nextjs.org/docs/app/api-reference/functions/fetch#optionsnextrevalidate
   /*
   const REVALIDATE_SKIP_CACHE = 0
   const REVALIDATE_CACHE_FOREVER = false
@@ -45,7 +45,7 @@ export async function loadQuery<QueryResponse>({
 
   const options = {
     filterResponse: false,
-    useCdn: false,
+    useCdn: !isDraftMode, // Use CDN only in non-draft mode
     resultSourceMap: isDraftMode ? 'withKeyArraySelector' : false,
     token: isDraftMode ? token : undefined,
     perspective,
@@ -55,9 +55,15 @@ export async function loadQuery<QueryResponse>({
       revalidate: isDraftMode ? false : 60,
     },
   } satisfies UnfilteredResponseQueryOptions
-  const result = await client.fetch<QueryResponse>(query, params, {
-    ...options,
-    stega: isDraftMode,
-  } as UnfilteredResponseQueryOptions)
-  return result.result
+  
+  try {
+    const result = await client.fetch<QueryResponse>(query, params, {
+      ...options,
+      stega: isDraftMode,
+    } as UnfilteredResponseQueryOptions)
+    return result.result
+  } catch (err) {
+    console.error('Error fetching query:', err)
+    throw err
+  }
 }
